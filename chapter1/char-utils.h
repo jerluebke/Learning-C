@@ -1,3 +1,5 @@
+/* NOTE:
+ * When compiling with gcc, pass `-D_POSIX_SOURCE=0` */
 #ifndef CHAR_UTILS_H
 #define CHAR_UTILS_H
 
@@ -20,15 +22,19 @@ int getline(char s[], int lim)
 }
 
 
-/* remove_trailing_ws: strip trailing whitespace from s and return new length */
+/* remove_trailing_ws: strip trailing whitespace from s and return new length
+ * return 0 if line is empty or only whitespace */
 int remove_trailing_ws(char s[], int len)
 {
-    int i;
-    i = len-2;
-    while (i >= 0 && (s[i] == ' ' || s[i] == '\t' /*|| s[i] == '\n'*/))
+    if (len < 2)    /* only newline or empty */
+        return 0;
+    int i = len-1;
+    while (i > 0 && (s[i-1] == ' ' || s[i-1] == '\t'))
         --i;
-    s[i+2] = '\0';
-    return i+1;
+    if (i == 0)     /* whole line was whitespace */
+        return 0;
+    s[i] = '\0';
+    return i;
 }
 
 

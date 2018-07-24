@@ -1,0 +1,6 @@
+*.out
+*.exe
+*.dat
+
+tags
+page
