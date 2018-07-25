@@ -11,6 +11,10 @@ static uint32_t sxtn[] = {
     268435456,
 };
 
+/* takes a null-terminated string (with optional '0x') representing a hexa-
+ * decimal number and return its decimal representation as an unsigned int
+ * UINT32_MAX = 0xFFFFFFFF, longer input will be truncated 
+ * passing input containing non-hex chars is undefined behaviour */
 uint32_t htoi(char *hex)
 {
     uint32_t res, cur, pow;
