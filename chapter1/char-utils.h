@@ -54,6 +54,22 @@ void reverse(char s[], int len)
 }
 
 
+#include <string.h>
+
+/* reverse:  another more elegant version
+ * example from section 3.5 */
+void reverse_kr(char s[])
+{
+    int c, i, j;
+
+    for (i = 0, j =  strlen(s)-1; i < j; ++i, --j) {
+        c = s[i];
+        s[i] = s[j];
+        s[j] = c;
+    }
+}
+
+
 /* copy: copy 'from' into 'to'; assume to is big enough */
 void copy(char to[], char from[])
 {
