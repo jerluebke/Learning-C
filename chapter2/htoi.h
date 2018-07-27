@@ -13,7 +13,7 @@ static uint32_t sxtn[] = {
 
 /* takes a null-terminated string (with optional '0x') representing a hexa-
  * decimal number and return its decimal representation as an unsigned int
- * UINT32_MAX = 0xFFFFFFFF, longer input will be truncated 
+ * UINT32_MAX = 0xFFFFFFFF, longer input will be truncated
  * passing input containing non-hex chars is undefined behaviour */
 uint32_t htoi(char *hex)
 {
@@ -21,9 +21,9 @@ uint32_t htoi(char *hex)
     res = cur = pow = 0;
     char *tmp = hex;
     while (*hex++ != '\0');
-    hex--;
+    --hex;
     while ((hex != tmp) && (pow < 8)) {
-        hex--;
+        --hex;
         if (*hex == 'x' || *hex == 'X')
             break;
         else if (*hex == 'a' || *hex == 'A')
@@ -41,7 +41,61 @@ uint32_t htoi(char *hex)
         else
             cur = *hex - '0';
         res += sxtn[pow] * cur;
-        pow++;
+        ++pow;
     }
+    return res;
+}
+
+/* same as above, but with switch
+ * is actually faster */
+uint32_t htoi_s(char *hex)
+{
+    uint32_t res, cur, pow;
+    res = cur = pow = 0;
+
+    char *tmp = hex;
+    while (*hex++ != '\0')
+        ;
+    --hex;
+
+    while ((hex != tmp) && (pow < 8)) {
+        --hex;
+        switch (*hex) {
+            case 'x':
+            case 'X':
+                goto end;
+            case 'a':
+            case 'A':
+                cur = 10;
+                break;
+            case 'b' :
+            case 'B':
+                cur = 11;
+                break;
+            case 'c':
+            case 'C':
+                cur = 12;
+                break;
+            case 'd':
+            case 'D':
+                cur = 13;
+                break;
+            case 'e':
+            case 'E':
+                cur = 14;
+                break;
+            case 'f':
+            case 'F':
+                cur = 15;
+                break;
+            default:
+                cur = *hex - '0';
+                break;
+        }
+        res += sxtn[pow] * cur;
+        ++pow;
+    }
+
+end:
     return res;
 }
